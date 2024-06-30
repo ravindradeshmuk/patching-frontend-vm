@@ -139,11 +139,14 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     flex: 1,
-    backgroundColor: '#3f51b5',
+    backgroundColor: '#ffffff',
+    padding: '2px 2px',
+    
   },
   buttonsave: {
-    display: 'flex',
-    backgroundColor: '#4caf50',
+    flex: 1,
+    backgroundColor: '#ffffff',
+    margin: '5px',
   },
   infoButton: {
     padding: 0, // Remove padding
@@ -175,14 +178,14 @@ const useStyles = makeStyles((theme) => ({
     padding: '4px 8px',
   },
   canceledRow: {
-    backgroundColor: '#ffcccc',
+    backgroundColor: '#fc1212',
   },
   disabledSelect: {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#fc1212',
     pointerEvents: 'none',
   },
   disabledButton: {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#fc1212',
     pointerEvents: 'none',
   },
 }));
