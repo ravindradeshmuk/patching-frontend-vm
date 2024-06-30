@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
+
+import UserRoutes from "./UsersRoute/userRoutes";
+import AdminDashboard from "./AdminRoute/AdminDashboard";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2', // Replace with your primary color
+    },
+    // Add other palette configurations as needed
+  },
+  // Add other theme configurations like typography, spacing, etc.
+});
+
+// import io from 'socket.io-client';
+// const socket = io('http://localhost:3000');
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Routes>
+          {/* User Dashboard Routes */}
+          <Route path="/*" element={<UserRoutes />} />
+
+          {/* Admin Dashboard Routes */}
+          <Route path="/admindashboard/*" element={<AdminDashboard />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 

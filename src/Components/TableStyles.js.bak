@@ -1,0 +1,43 @@
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme) => ({
+  tableContainer: {
+    margin: theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(1),
+    },
+  },
+  table: {
+    minWidth: 650,
+  },
+  headerCell: {
+    fontWeight: 'bold',
+    backgroundColor: theme.palette.grey[200],
+  },
+  stickyHeader: {
+    position: 'sticky',
+    top: 0,
+    zIndex: 1,
+  },
+  cell: {
+    cursor: 'pointer',
+  },
+  specialRowLabel: {
+    fontWeight: 'bold',
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.common.white,
+    textAlign: 'center',
+  },
+  inputContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  timeInput: {
+    marginRight: theme.spacing(1),
+  },
+  setTimeButton: {
+    marginLeft: theme.spacing(1),
+  },
+}));
+
+export default useStyles;
