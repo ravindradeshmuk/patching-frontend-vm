@@ -18,7 +18,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
   const apiDomain = process.env.REACT_APP_API_DOMAIN;
-  const apiPort = process.env.REACT_APP_API_PORT;
   const [signupFormData, setSignupFormData] = useState({
     firstName: "",
     lastName: "",
@@ -67,7 +66,7 @@ const SignUpPage = () => {
       }
 
       const response = await axios.post(
-        `${apiDomain}:${apiPort}/user/api/signup`,
+        `${apiDomain}/user/api/signup`,
         signupFormData,
       );
       console.log("Signup response:", response.data);

@@ -25,7 +25,6 @@ import InputLabel from "@mui/material/InputLabel";
 
 const UpdateResource = () => {
   const apiDomain = process.env.REACT_APP_API_DOMAIN;
-  const apiPort = process.env.REACT_APP_API_PORT;
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [editData, setEditData] = useState({});

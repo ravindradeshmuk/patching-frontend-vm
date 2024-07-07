@@ -3,197 +3,32 @@ import axios from 'axios';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import InfoIcon from '@mui/icons-material/Info';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Paper,
-  Select,
-  MenuItem,
-  TableContainer,
-  Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Button,
-  IconButton,
-  TextField,
-  useMediaQuery,
-  useTheme,
-  } from '@mui/material';
-  import {makeStyles } from '@mui/styles';
+  StyledTable,
+  StyledTableContainer,
+  StyledTableCell,
+  StyledTableRow,
+  StyledButton,
+  StyledDialog,
+  StyledTextField,
+  StyledSelect,
+  StyledIconButton,
+} from './StyledComponents';
+import Paper from '@mui/material/Paper';
+import TableBody from '@mui/material/TableBody';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/system';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 
-const useStyles = makeStyles((theme) => ({
-  table: {
-    minWidth: 650,
-    width: '100%',
-    border: '1px solid #ddd',
-    margin: "50px 0px 20px 0px ",
-  },
-  headerCell: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    border: '1px solid #ddd',
-    maxWidth: 100,
-    padding: '2px 2px',
-  },
-  alphabetHeaderCell: {
-    backgroundColor: '#E3F2FD',
-    color: theme.palette.common.black,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    border: '1px solid black',
-    padding: '2px 2px',
-  },
-  cell: {
-    textAlign: 'center',
-    border: '1px solid ',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    padding: '2px 2px',
-    maxWidth: 400,
-  },
-  tableContainer: {
-    overflowX: 'auto',
-  },
-  dropdownCell: {
-    width: 100,
-    maxWidth: 100,
-    overflow: 'hidden',
-    padding: '2px 2px',
-  },
-  select: {
-    height: '30px', // Set a specific height if needed
-    lineHeight: '200px', // Adjust line-height to match the height
-    padding: 0, // Remove padding
-    margin: 0, // Remove margin
-    flexGrow: 1, // Allow select to take up remaining space
-    //marginRight: theme.spacing(0.2),
-    width: '50%',
-    backgroundColor: '#FFF',
-    '& .MuiSelect-icon': {
-      color: theme.palette.action.active,
-    },
-  },
-  inputTime: {
-    width: '100%',
-  },
-  specialRow: {
-    backgroundColor: '#0076a2',
-    color: '#ffffff',
-  },
-  specialRowLabel: {
-    fontWeight: 'bold',
-    fontSize: '1.2rem',
-    color: '#FFFFFF',
-    backgroundColor: '#393392',
-    right: "100px",
-  },
-  stickyColumn: {
-    position: 'sticky',
-    left: 0,
-    backgroundColor: theme.palette.background.paper,
-    zIndex: 1,
-    
-  },
-  stickyColumnSecond: {
-    position: 'sticky',
-    left: '200px',
-    backgroundColor: theme.palette.background.paper,
-    zIndex: 2,
-  },
-  timeInput: {
-    width: '23%',
-    height: '20px',
-    padding: '2px 2px',
-    margin: '2px 0',
-    fontSize: '2rem',
-    borderColor: theme.palette.primary.light,
-    borderRadius: '2px',
-    paddingLeft: '100px',
-  },
-  setTimeButton: {
-    height: '40px',
-    margin: '5px 0',
-    fontSize: '0.875rem',
-    textTransform: 'none',
-  },
-  inputContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    gap: '10px',
-    width: "300px",
-    textAlign: 'center',
-  },
-  buttonRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: '10px',
-  },
-  button: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    padding: '2px 2px',
-    
-  },
-  buttonsave: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    margin: '5px',
-  },
-  infoButton: {
-    padding: 0, // Remove padding
-    margin: 0, // Remove margin
-    minWidth: 'auto', // Ensure no minimum width is set
-    
-  },
-  dropdownContainer: {
-    height: '10px', 
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start', // Ensures proper spacing between elements
-    padding: '0px', // Adjust as needed to reduce overall padding
-    width: '100%',
-  },
-  dialogContent: {
-    overflow: 'auto',
-    
-  },
-  stickyHeader: {
-    position: "sticky",
-    top: 5,
-    background: "white",
-    zIndex: 1,
-    fontWeight: 'bold',
-  },
-  tableCell: {
-    whiteSpace: "nowrap",
-    padding: '4px 8px',
-  },
-  canceledRow: {
-    backgroundColor: '#fc1212',
-  },
-  disabledSelect: {
-    backgroundColor: '#fc1212',
-    pointerEvents: 'none',
-  },
-  disabledButton: {
-    backgroundColor: '#fc1212',
-    pointerEvents: 'none',
-  },
-}));
+
 
 function TableComponent() {
   const apiDomain = process.env.REACT_APP_API_DOMAIN;
-  const apiPort = process.env.REACT_APP_API_PORT;
-  const classes = useStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -280,7 +115,6 @@ function TableComponent() {
   }, []);
 
   useEffect(() => {
-    const apiDomain = process.env.REACT_APP_API_DOMAIN;
     const fetchLoginNames = async () => {
       try {
         const response = await axios.get(`${apiDomain}/client/data/names`);
@@ -303,7 +137,6 @@ function TableComponent() {
     const rowId = newData[rowIndex]._id;
     const clientName = newData[rowIndex]["Site Name"];
     const nestedObject = newData[rowIndex][columnName];
-    // const loginBy = 'your_login_name'; // Replace with the actual login name
   
     // Update the local state
     if (Array.isArray(nestedObject)) {
@@ -315,7 +148,7 @@ function TableComponent() {
           value: value,
           updated: [{
             name: clientName,
-            timestamp:currentTime,
+            timestamp: currentTime,
             loginBy: loginBy,
             newValue: value
           }]
@@ -325,7 +158,7 @@ function TableComponent() {
       nestedObject.value = value;
       nestedObject.updated = [{
         name: clientName,
-        timestamp:currentTime,
+        timestamp: currentTime,
         loginBy: loginBy,
         newValue: value
       }];
@@ -358,20 +191,23 @@ function TableComponent() {
       console.error('Error updating data:', error);
     }
   };
+  
   const handleOpenPopup = (rowIndex, columnName) => {
     setCurrentEditing({ rowIndex, columnName });
     setIsPopupOpen(true);
   };
-
+  
   const handleClosePopup = () => {
     setIsPopupOpen(false);
+    setManualTime('');
   };
+  
   const handleSaveManualTime = async () => {
     if (!manualTime.match(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)) {
       alert("Please enter a valid time in HH:MM format.");
       return;
     }
-
+  
     const { rowIndex, columnName } = currentEditing;
     if (rowIndex != null && columnName) {
       // Update the local state
@@ -379,10 +215,10 @@ function TableComponent() {
       const rowId = newData[rowIndex]._id;
       newData[rowIndex][columnName] = manualTime;
       setTableData(newData);
-
+  
       // Reset the manual time input for the next use
       setManualTime('');
-
+  
       try {
         // Update the database
         const response = await axios.patch(`${apiDomain}/client/data/updateTime/${rowId}`, {
@@ -399,7 +235,7 @@ function TableComponent() {
       handleClosePopup();
     }
   };
-
+  
   const handleSaveTime = async () => {
     const currentTime = new Date().toLocaleTimeString('en-US', {
       timeZone: 'America/New_York',
@@ -419,7 +255,6 @@ function TableComponent() {
         });
         if (response.status === 200) {
           console.log('Time updated successfully:', response.data);
-        
         } else {
           throw new Error(`Failed to update time. Status code: ${response.status}`);
         }
@@ -429,6 +264,7 @@ function TableComponent() {
       handleClosePopup();
     }
   };
+  
 
   // const handleTimeChange = (event, rowIndex, columnName) => {
   //   const newData = [...tableData];
@@ -450,22 +286,21 @@ function TableComponent() {
     setIsHistoryPopupOpen(false);
     setChangeHistory([]);
   };
-
-  // Sample data
-  // Sample data
-
+  
   const dropdownOptions = [
-   'Pending', 'Started', 'In Progress', 'Delayed',
-    'Issue Detected', 'Completed', 'NA','Canceled'
+    'Pending', 'Started', 'In Progress', 'Delayed',
+    'Issue Detected', 'Completed', 'NA', 'Canceled'
   ];
+  
   const complianceOptions = [
     'Pending', 'Compliant', 'Non Compliant', 'NA'
   ];
-
+  
   const shouldRenderDropdown = (index) => {
     // Logic to determine if a dropdown should be rendered based on index
     return index >= 7 && index < 23; // Example condition
   };
+  
 
   //const alphabetHeaders = Array.from({ length: tableHeadings.length }, (_, i) => String.fromCharCode(65 + i));
 
@@ -484,6 +319,7 @@ function TableComponent() {
         return { backgroundColor: '#151744', color: 'white', fontWeight: 'bold', textAlign: 'center', border: '1px solid black', padding: "1px" }; // Default style for other headers
     }
   };
+  
   const renderDropdownValue = (valueObj) => {
     const value = valueObj.value || valueObj;
     const style = {
@@ -493,7 +329,6 @@ function TableComponent() {
     return <div style={style}>{value}</div>;
   };
   
- 
   const renderCellValue = (value) => {
     if (value && typeof value === 'object') {
       if ('value' in value) {
@@ -513,18 +348,19 @@ function TableComponent() {
       setManualTime(value);
     }
   };
-
+  
   const handleManualTimeBlur = () => {
     let [hours, minutes] = manualTime.split(':');
     hours = hours || '00';
     minutes = minutes || '00';
-
+  
     if (hours.length === 1) hours = '0' + hours;
     if (minutes.length === 1) minutes = '0' + minutes;
-
-    const formattedTime = `${hours}:${minutes}`;
+  
+      const formattedTime = `${hours}:${minutes}`;
     setManualTime(formattedTime);
   };
+  
   
   const siteNameIndex = tableHeadings.findIndex(heading => heading === "Site Name");
   const dataCenterIndex = tableHeadings.findIndex(heading => heading === "Data Center");
@@ -533,21 +369,18 @@ function TableComponent() {
   let readOnlyCounter = 1;
   return (
     <>
-      <TableContainer component={Paper} style={{ marginTop:'40px'}}>
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead >
-            <TableRow >
-              <TableCell style={getHeaderCellStyle()}>#</TableCell>
+      <StyledTableContainer component={Paper}>
+        <StyledTable aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>#</StyledTableCell>
               {tableHeadings.map((heading, index) => (
-
-                <TableCell
-
+                <StyledTableCell
                   key={index}
-                  style={getHeaderCellStyle(heading)}
-                  className={`${index === siteNameIndex || index === dataCenterIndex ? classes.stickyColumn : ""}`}
+                  className={index === siteNameIndex || index === dataCenterIndex ? 'stickyColumn' : ''}
                 >
                   {heading}
-                </TableCell>
+                </StyledTableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -558,95 +391,81 @@ function TableComponent() {
                 else if (row.type === 'west') westCounter = 1;
                 else if (row.type === 'Read Only') readOnlyCounter = 1;
                 return (
-                  <TableRow key={`special-${row.type}-${rowIndex}`} className={classes.specialRow}>
-                    <TableCell colSpan={tableHeadings.length + 1} className={classes.specialRowLabel} style={{ backgroundColor: '#0076a2', padding: "0", color: "#ffffff" }}>
+                  <StyledTableRow key={`special-${row.type}-${rowIndex}`} className="specialRow">
+                    <StyledTableCell colSpan={tableHeadings.length + 1} className="specialRowLabel">
                       {row.label}
-                    </TableCell>
-                  </TableRow>
+                    </StyledTableCell>
+                  </StyledTableRow>
                 );
-
               } else {
-                // Increment counters based on region
                 const isReadOnlyRow = row["Read Only"] === "Yes";
                 let currentCounter;
                 if (isReadOnlyRow) {
-                  currentCounter = readOnlyCounter;
-                  readOnlyCounter++;
+                  currentCounter = readOnlyCounter++;
                 } else {
                   currentCounter = row["Time Zone Group"] === "E" ? eastCounter++ : westCounter++;
                 }
-                // Apply the canceled row class
                 const isCanceledClient = row["Canceled Client"] === "Yes";
-                const rowClassName = isCanceledClient ? classes.canceledRow : '';
 
                 return (
-                  <TableRow key={row._id} className={rowClassName}>
-                    <TableCell className={classes.cell}>{currentCounter}</TableCell>
+                  <StyledTableRow key={row._id} className={isCanceledClient ? 'canceledRow' : ''}>
+                    <StyledTableCell>{currentCounter}</StyledTableCell>
                     {tableHeadings.map((heading, columnIndex) => {
                       const isTimeInputColumn = heading === 'SCM App Group 2 - Complete (Enter EST Time in 24h format)' ||
                         heading === 'Patch Reboots Complete (Enter EST Time in 24h format)';
                       const isDropdown = shouldRenderDropdown(columnIndex);
-                      // const isSiteNameColumn = heading === "Site Name";
                       const isComplianceDropdown = heading === 'Azure Gold Image Compliance Status';
-           
                       const isSiteNameColumn = columnIndex === siteNameIndex || columnIndex === dataCenterIndex;
-                      // Disable fields/dropdowns for canceled clients
-                      const fieldClassName = isCanceledClient ? classes.disabledSelect : '';
+                      const fieldClassName = isCanceledClient ? 'disabledSelect' : '';
 
                       return (
-                        <TableCell key={columnIndex} className={`${classes.cell} ${isSiteNameColumn ? classes.stickyColumn : ''}`}
-                        >
+                        <StyledTableCell key={columnIndex} className={isSiteNameColumn ? 'stickyColumn' : ''}>
                           {isTimeInputColumn ? (
-                            // Use a Button or any clickable element to open the popup
-                            <Button onClick={() => handleOpenPopup(rowIndex, heading)} className={`${classes.inputTime} ${fieldClassName}`} disabled={isCanceledClient}>
-                              {row[heading] ? row[heading] : 'Set Time'}  {/* Display the current value or prompt to set time */}
-                            </Button>
-                          ) : isDropdown || isComplianceDropdown ?  (
-                            <Box className={classes.dropdownContainer}>
-                            <Select
-                              value={row[heading] || 'Pending'}
-                              onChange={(event) => handleDropdownChange(event, rowIndex, heading)} // Corrected parameters
-                              className={`${classes.select} ${fieldClassName}`}
-                              IconComponent={KeyboardArrowDownIcon}
-                              renderValue={(value) => renderDropdownValue(value,row[heading], rowIndex, heading)}
-                            >
-                              {(isComplianceDropdown ? complianceOptions : dropdownOptions).map((option, optionIndex) => (
-                                <MenuItem key={optionIndex} value={option} style={{
-                                  color: option === 'Completed' ? 'green' : option === 'Issue Detected' ? 'red' : 'default',
-                                }}>
-                                  {option}
-                                </MenuItem>
-                              ))}
-                             
-                          </Select>
-                          <IconButton
-                              className={`${classes.infoButton} ${fieldClassName}`}
-                              onClick={() => handleOpenHistoryPopup(row._id, heading)}
-                              disabled={isCanceledClient}
-                            >
-                               <InfoIcon />
-                            </IconButton>
-                             
-                          </Box>
-
+                            <StyledButton onClick={() => handleOpenPopup(rowIndex, heading)} className={`inputTime ${fieldClassName}`} disabled={isCanceledClient}>
+                              {row[heading] ? row[heading] : 'Set Time'}
+                            </StyledButton>
+                          ) : isDropdown || isComplianceDropdown ? (
+                            <Box className="dropdownContainer">
+                              <StyledSelect
+                                value={row[heading] || 'Pending'}
+                                onChange={(event) => handleDropdownChange(event, rowIndex, heading)}
+                                className={`select ${fieldClassName}`}
+                                IconComponent={KeyboardArrowDownIcon}
+                                renderValue={(value) => renderDropdownValue(value)}
+                              >
+                                {(isComplianceDropdown ? complianceOptions : dropdownOptions).map((option, optionIndex) => (
+                                  <MenuItem key={optionIndex} value={option} style={{
+                                    color: option === 'Completed' ? 'green' : option === 'Issue Detected' ? 'red' : 'default',
+                                  }}>
+                                    {option}
+                                  </MenuItem>
+                                ))}
+                              </StyledSelect>
+                              <StyledIconButton
+                                className={`infoButton ${fieldClassName}`}
+                                onClick={() => handleOpenHistoryPopup(row._id, heading)}
+                                disabled={isCanceledClient}
+                              >
+                                <InfoIcon />
+                              </StyledIconButton>
+                            </Box>
                           ) : (
                             renderCellValue(row[heading])
-                            
                           )}
-                        </TableCell>
+                        </StyledTableCell>
                       );
                     })}
-                  </TableRow>
+                  </StyledTableRow>
                 );
               }
             })}
           </TableBody>
-        </Table>
-      </TableContainer>
-      <Dialog open={isPopupOpen} onClose={handleClosePopup}>
-        <DialogActions className={classes.inputContainer}>
-     <TextField
-            className={classes.timeInput}
+        </StyledTable>
+      </StyledTableContainer>
+      <StyledDialog open={isPopupOpen} onClose={handleClosePopup}>
+        <DialogActions className="inputContainer">
+          <StyledTextField
+            className="timeInput"
             type="text"
             value={manualTime}
             onChange={handleManualTimeChange}
@@ -655,55 +474,52 @@ function TableComponent() {
             InputLabelProps={{
               shrink: true,
             }}
-            style={{ margin: '20px' }}
           />
-          <Button onClick={handleSaveManualTime} color="primary" className={classes.buttonsave}>
+          <StyledButton onClick={handleSaveManualTime} color="primary" className="buttonsave">
             Save
-          </Button>
-           <Button onClick={handleSaveTime} color="primary" className={classes.button}>
+          </StyledButton>
+          <StyledButton onClick={handleSaveTime} color="primary" className="button">
             Set Current Time EST
-          </Button>
-          <Button onClick={handleClosePopup} color="secondary">
+          </StyledButton>
+          <StyledButton onClick={handleClosePopup} color="secondary">
             Cancel
-          </Button>
+          </StyledButton>
         </DialogActions>
-      </Dialog>
-      <Dialog open={isHistoryPopupOpen} onClose={handleCloseHistoryPopup}>
-  <DialogTitle>Change History</DialogTitle>
-  <DialogContent className={classes.dialogContent}>
-      {changeHistory.length > 0 ? (
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell className={classes.stickyHeader}>Date/Time</TableCell>
-              <TableCell className={classes.stickyHeader}>Status</TableCell>
-              <TableCell className={classes.stickyHeader}>Changed By</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {changeHistory.map((change, index) => (
-              <TableRow key={index}>
-                <TableCell className={classes.tableCell}>{(change.timestamp)}</TableCell>
-                <TableCell className={classes.tableCell}>{change.newValue}</TableCell>
-                <TableCell className={classes.tableCell}>{change.loginBy}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      ) : (
-        <p>No changes found.</p>
-      )}
-    </DialogContent>
-  <DialogActions>
-    <Button onClick={handleCloseHistoryPopup} color="primary">
-      Close
-    </Button>
-  </DialogActions>
-</Dialog>
+      </StyledDialog>
+      <StyledDialog open={isHistoryPopupOpen} onClose={handleCloseHistoryPopup}>
+        <DialogTitle>Change History</DialogTitle>
+        <DialogContent className="dialogContent">
+          {changeHistory.length > 0 ? (
+            <StyledTable>
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Date/Time</StyledTableCell>
+                  <StyledTableCell>Status</StyledTableCell>
+                  <StyledTableCell>Changed By</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {changeHistory.map((change, index) => (
+                  <StyledTableRow key={index}>
+                    <StyledTableCell>{change.dateTime}</StyledTableCell>
+                    <StyledTableCell>{change.status}</StyledTableCell>
+                    <StyledTableCell>{change.changedBy}</StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </StyledTable>
+          ) : (
+            <div>No change history available.</div>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <StyledButton onClick={handleCloseHistoryPopup} color="primary">
+            Close
+          </StyledButton>
+        </DialogActions>
+      </StyledDialog>
     </>
   );
 }
 
 export default TableComponent;
-
-// TableComponent;
