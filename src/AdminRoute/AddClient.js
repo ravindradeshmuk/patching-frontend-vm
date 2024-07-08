@@ -8,6 +8,7 @@ const AddClient = () => {
   const [headings, setHeadings] = useState([]);
   const [formData, setFormData] = useState({});
   const [error, setError] = useState("");
+  
 
   useEffect(() => {
     const fetchHeadings = async () => {
@@ -138,7 +139,8 @@ const AddClient = () => {
         <CustomFormControlLabel value="scm" control={<CustomRadio />} label="SCM" />
         <CustomFormControlLabel value="tw" control={<CustomRadio />} label="TW" />
         <CustomFormControlLabel value="azure" control={<CustomRadio />} label="Azure" />
-        <CustomFormControlLabel value="suncom" control={<CustomRadio />} label="Suncom" />
+        <CustomFormControlLabel value="suncomm" control={<CustomRadio />} label="Suncomm" />
+        <CustomFormControlLabel value="aus" control={<CustomRadio />} label="Aus" />
         <CustomFormControlLabel value="adhoc" control={<CustomRadio />} label="Adhoc" />
         <CustomFormControlLabel value="qts" control={<CustomRadio />} label="QTS" />
       </CustomRadioGroup>

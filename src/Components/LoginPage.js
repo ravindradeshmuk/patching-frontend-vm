@@ -15,10 +15,10 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { AuthContext } from "../Components/UserContext";
+import { AuthContext } from "../Components/UserContext"; // Ensure the correct path to AuthContext
 
-const apiDomain = process.env.REACT_APP_API_DOMAIN;
 const LoginPage = () => {
+  const apiDomain = process.env.REACT_APP_API_DOMAIN;
   const { handleSubmit, control, formState: { errors } } = useForm();
   const [loginDialogOpen, setLoginDialogOpen] = useState(true);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -39,7 +39,7 @@ const LoginPage = () => {
         `${apiDomain}/user/api/login`,
         data,
       );
-      const { token, firstName, role } = response.data;
+      const { token, firstName } = response.data;
       login(token, firstName);
 
       setSnackbarMessage("Login successful");
@@ -49,11 +49,6 @@ const LoginPage = () => {
 
       const from = location.state?.from?.pathname || "/home";
       navigate(from, { replace: true });
-      if (role === "admin") {
-        navigate("/admindashboard/dashbord");
-      } else {
-        navigate("/home");
-      }
     } catch (error) {
       console.error("Error logging in:", error);
       const errorMessage =

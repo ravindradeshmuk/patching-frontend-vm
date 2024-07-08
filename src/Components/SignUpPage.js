@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import moment from "moment-timezone";
 
 const SignUpPage = () => {
   const apiDomain = process.env.REACT_APP_API_DOMAIN;
@@ -33,11 +34,12 @@ const SignUpPage = () => {
   const [signupDialogOpen, setSignupDialogOpen] = useState(true);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const signupTime = new Date().toISOString();
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const signupTime = moment().tz("America/New_York").format("YYYY-MM-DD HH:mm");
+    const timezone = "America/New_York";
     setSignupFormData((prevState) => ({
       ...prevState,
       signupTime,
@@ -61,6 +63,7 @@ const SignUpPage = () => {
         setSnackbarMessage(
           'Please use an email address with the domain "@alterahealth.com"',
         );
+        setSnackbarSeverity("error");
         setSnackbarOpen(true);
         return;
       }
@@ -88,6 +91,8 @@ const SignUpPage = () => {
       const successMessage =
         "Registration successful. Please wait for the admin to approve your account.";
       setSnackbarMessage(successMessage);
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
       localStorage.setItem("signupSuccessMessage", successMessage);
 
       // Navigate to /home after a short delay
@@ -97,6 +102,7 @@ const SignUpPage = () => {
     } catch (error) {
       console.error("Error signing up:", error);
       setSnackbarMessage("Error signing up, please try again");
+      setSnackbarSeverity("error");
       setSnackbarOpen(true);
     }
   };
@@ -119,7 +125,7 @@ const SignUpPage = () => {
       >
         <Alert
           onClose={handleSnackbarClose}
-          severity="success"
+          severity={snackbarSeverity}
           sx={{ width: "100%" }}
         >
           {snackbarMessage}
@@ -164,7 +170,7 @@ const SignUpPage = () => {
           <TextField
             margin="dense"
             id="password"
-            label="Password"
+            label="Password Min 8 character"
             type="password"
             fullWidth
             name="password"
@@ -180,15 +186,17 @@ const SignUpPage = () => {
               name="team"
               value={signupFormData.team}
               onChange={handleSignupFormChange}
-              label="Team"
+              label="Select Team"
             >
               <MenuItem value="">
                 <em>Select Team</em>
               </MenuItem>
-              <MenuItem value="SCM team">SCM App Team</MenuItem>
-              <MenuItem value="DB team">DB Team</MenuItem>
-              <MenuItem value="Monitoring team">Monitoring Team</MenuItem>
-              <MenuItem value="Patching team">Patching Team</MenuItem>
+              <MenuItem value="Altera DB Team">Altera DB Team</MenuItem>
+              <MenuItem value="Altera Monitoring Team">Altera Monitoring Team</MenuItem>
+              <MenuItem value="Altera Patching Team">Altera Patching Team</MenuItem>
+              <MenuItem value="Suncomm Team">Suncomm Team</MenuItem>
+              <MenuItem value="Sunrise App Team">Sunrise App Team</MenuItem>
+              <MenuItem value="Opal Team">Opal Team</MenuItem>
             </Select>
           </FormControl>
         </DialogContent>

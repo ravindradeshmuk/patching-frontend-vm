@@ -145,7 +145,7 @@ const ClientData = () => {
           <FormLabel component="legend">Filter</FormLabel>
           <RadioGroup row value={filter} onChange={handleFilterChange}>
             <FormControlLabel value="" control={<Radio />} label="All" />
-            {["scm", "tw", "azure", "suncom", "adhoc", "qts"].map((type) => (
+            {["scm", "tw", "azure", "suncomm","aus", "adhoc", "qts"].map((type) => (
               <FormControlLabel
                 key={type}
                 value={type}

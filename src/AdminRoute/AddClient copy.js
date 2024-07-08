@@ -225,7 +225,8 @@ const AddClient = () => {
         <CustomFormControlLabel value="scm" control={<CustomRadio />} label="SCM" />
         <CustomFormControlLabel value="tw" control={<CustomRadio />} label="TW" />
         <CustomFormControlLabel value="azure" control={<CustomRadio />} label="Azure" />
-        <CustomFormControlLabel value="suncom" control={<CustomRadio />} label="Suncom" />
+        <CustomFormControlLabel value="suncomm" control={<CustomRadio />} label="Suncomm" />
+        <CustomFormControlLabel value="aus" control={<CustomRadio />} label="Aus" />
         <CustomFormControlLabel value="adhoc" control={<CustomRadio />} label="Adhoc" />
         <CustomFormControlLabel value="qts" control={<CustomRadio />} label="QTS" />
       </CustomRadioGroup>
@@ -261,7 +262,8 @@ const AddClient = () => {
 
       {selectedPage === "tw" && <div>TW Page Content</div>}
       {selectedPage === "azure" && <div>Azure Page Content</div>}
-      {selectedPage === "suncom" && <div>Suncom Page Content</div>}
+      {selectedPage === "suncomm" && <div>Suncomm Page Content</div>}
+      {selectedPage === "aus" && <div>Aus Page Content</div>}
       {selectedPage === "adhoc" && <div>Adhoc Page Content</div>}
       {selectedPage === "qts" && <div>QTS Page Content</div>}
     </div>

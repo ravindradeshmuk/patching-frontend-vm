@@ -3,8 +3,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
 import { styled, ThemeProvider as SystemThemeProvider } from '@mui/system';
+import { AuthContext } from "./Components/UserContext";
 
-
+import Navbar from "./Components/Navbar"; // Ensure the correct path
 import UserRoutes from "./UsersRoute/userRoutes";
 import AdminDashboard from "./AdminRoute/AdminDashboard";
 
