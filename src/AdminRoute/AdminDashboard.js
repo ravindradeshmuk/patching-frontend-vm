@@ -12,6 +12,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import UpdateHeading from './UpdateHeading';
 import AddClient from './AddClient';
 import CreateTracker from './CreateTracker';
+import AdminTeamAccess from './AdminTeamAccess';
 import UpdateResource from './UpdateResource';
 import EmailTemplate from './EmailTemplate';
 import UpdateTemplate from './UpdateTemplate';
@@ -55,6 +56,7 @@ export default function AdminDashboard() {
           <Route path="updateheading" element={<UpdateHeading />} exact />
           <Route path="addclient" element={<AddClient />} exact />
           <Route path="createtracker" element={<CreateTracker />} exact />
+          <Route path="teamaccess" element={<AdminTeamAccess />} exact />
           <Route path="updateresource" element={<UpdateResource/>} exact />
           <Route path="template" element={<EmailTemplate/>} exact />
           <Route path="update-template" element={<UpdateTemplate/>} exact />

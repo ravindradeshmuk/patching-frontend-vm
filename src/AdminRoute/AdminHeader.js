@@ -179,6 +179,13 @@ const Navbar = () => {
             Create Tracker
           </NavLink>
           <NavLink
+            to="/admindashboard/teamaccess"
+            className={location.pathname === "/admindashboard/teamaccess" ? "active" : ""}
+          >
+            <DescriptionIcon className={MenuIcon} />
+            Team Access
+          </NavLink>
+          <NavLink
             to="/admindashboard/template"
             className={location.pathname === "/admindashboard/template" ? "active" : ""}
           >
