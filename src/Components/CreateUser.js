@@ -18,11 +18,12 @@ function UserLogin({ isOpen, onClose }) {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
+  const apiDomain = process.env.REACT_APP_API_DOMAIN;
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "${apiDomain}/user/login/users",
+        `${apiDomain}/user/login/users`,
         {
           method: "POST",
           headers: {

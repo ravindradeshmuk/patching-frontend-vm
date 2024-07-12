@@ -1,167 +1,97 @@
-import React, { useState } from "react";
-import {
-  TextField,
-  Button,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Typography,
-  Grid,
-  Box,
-} from "@mui/material";
-import { makeStyles } from "@mui/styles"; // Updated import
+import React, { useState, useEffect } from "react";
+import { TextField, RadioGroup, FormControlLabel, Radio, Button, Typography, Grid, Box } from "@mui/material";
+import { styled } from "@mui/system";
 
-const useStyles = makeStyles((theme) => ({
-  formContainer: {
-    margin: "10px auto",
-    padding: theme.spacing(2),
-    boxShadow: "0px 0px 10px 2px rgba(0,0,0,0.1)",
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    maxWidth: 'none',
-  },
-  textField: {
-    marginBottom: theme.spacing(3),
-    padding: '8px 16px',
-  
-  },
-  errorText: {
-    color: "red",
-    marginBottom: theme.spacing(2),
-  },
-  radioGroup: {
-    marginTop: theme.spacing(12),
-  },
-  submitButton: {
-    marginTop: theme.spacing(2),
-  },
+export const FormContainer = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+  maxWidth: '800px',
+  marginTop: '20px',
+  border: '1px solid #ccc',
+  borderRadius: '4px',
+  backgroundColor: '#fff',
+  boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
 }));
+
+export const CustomTextField = styled(TextField)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+}));
+
+export const ErrorText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.error.main,
+  marginBottom: theme.spacing(2),
+}));
+
+export const CustomRadioGroup = styled(RadioGroup)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+  marginTop: '2px',
+}));
+
+export const CustomRadioGroup1 = styled(RadioGroup)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+  marginTop: '130px',
+}));
+
+export const CustomFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
+  marginRight: theme.spacing(2),
+}));
+
+export const CustomRadio = styled(Radio)(({ theme }) => ({}));
+
+export const SubmitButton = styled(Button)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+}));
+
 
 const AddClient = () => {
   const apiDomain = process.env.REACT_APP_API_DOMAIN;
-  const apiPort = process.env.REACT_APP_API_PORT;
-  const classes = useStyles();
   const [selectedPage, setSelectedPage] = useState("scm");
-  const [formData, setFormData] = useState({
-    "Canceled Client": "No",
-    "Read Only": "No",
-    "Data Center": "AZ",
-    "Live-Not Live": "Y",
-    "Time Zone Group": "W",
-    "Site Name": "",
-    "Code": "",
-    "SQL Configuration": "AO-3",
-    "Assigned Resource": "",
-    "Citrix-Infra": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-    "SCM App Group 1 START": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-    "SCM App Group 2 - Complete": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-    "SCM App Group 2 - Complete (Enter EST Time in 24h format)": "",
-    "SUN Component App Group Complete": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-    "Patch Reboots Complete (Enter EST Time in 24h format)": "",
-    "Patch-Reboots Complete": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-    "C:drive cleanup (Cleanup on all servers including Gold Images)": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-    "Citrix Infra Validation": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-    "Azure VM State Check": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-    "Azure Gold Image Compliance Status": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-    "SCM App Validation": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-    "DB Validation": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-    "Monitoring ISS-E-Link Validation": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-    "Monitoring Alerts Validation": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-    "Maintenance Mode Disabled": {
-      value: "Pending",
-      updated: [{ name: "", timestamp: "" }],
-    },
-  });
+  const [headings, setHeadings] = useState([]);
+  const [formData, setFormData] = useState({});
+  const [dataTypes, setDataTypes] = useState({});
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchHeadings = async () => {
+      try {
+        const apiDomain = process.env.REACT_APP_API_DOMAIN;
+        const response = await fetch(`${apiDomain}/api/trackerConfig/${selectedPage}`);
+        const data = await response.json();
+        setHeadings(data.headings);
+        const initialDataTypes = {};
+        data.headings.forEach((heading) => {
+          initialDataTypes[heading] = 'string';
+        });
+        setDataTypes(initialDataTypes);
+      } catch (error) {
+        console.error("Error fetching headings:", error);
+        setHeadings([]);
+        setError("Failed to load headings");
+      }
+    };
+
+    fetchHeadings();
+  }, [selectedPage]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (formData[name] && typeof formData[name] === "object") {
-      setFormData({ ...formData, [name]: { ...formData[name], value } });
+    if (dataTypes[name] === 'object') {
+      setFormData({ ...formData, [name]: { value, updated: [{ name: '', timestamp: '' }] } });
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
 
-  const handleRadioChange = (e) => {
-    setSelectedPage(e.target.value);
+  const handleRadioChange = (heading, value) => {
+    setDataTypes({ ...dataTypes, [heading]: value });
+    if (value === 'object') {
+      setFormData({ ...formData, [heading]: { value: 'Pending', updated: [{ name: '', timestamp: '' }] } });
+    } else {
+      setFormData({ ...formData, [heading]: '' });
+    }
   };
 
   const handleSubmit = async () => {
     try {
-      const numericFields = [
-        "SCM App Group 2 - Complete (Enter EST Time in 24h format)",
-        "Patch Reboots Complete (Enter EST Time in 24h format)",
-      ];
-
-      const validationErrors = numericFields
-        .filter((field) => {
-          const value = formData[field];
-          return (
-            typeof value === "string" && value.trim() !== "" && isNaN(value)
-          );
-        })
-        .map((field) => `${field} must be a number if not empty.`);
-
-      if (validationErrors.length > 0) {
-        setError(validationErrors.join(" "));
-        throw new Error(validationErrors.join(" "));
-      }
-
-      const isAnyFieldEmpty = Object.keys(formData).some((key) => {
-        if (numericFields.includes(key)) return false;
-        const value = formData[key];
-        return typeof value === "string" && value.trim() === "";
-      });
-
-      if (isAnyFieldEmpty) {
-        setError(
-          "All fields are required except the two numeric fields which can be empty.",
-        );
-        throw new Error(
-          "All fields are required except the two numeric fields which can be empty.",
-        );
-      }
-
       const postData = {
         selectedTracker: selectedPage,
         ...formData,
@@ -179,76 +109,7 @@ const AddClient = () => {
         throw new Error("Failed to save data");
       }
 
-      setFormData({
-        "Canceled Client": "No",
-        "Read Only": "No",
-        "Data Center": "AZ",
-        "Live-Not Live": "Y",
-        "Time Zone Group": "W",
-        "Site Name": "",
-        "Code": "",
-        "SQL Configuration": "AO-3",
-        "Assigned Resource": "",
-        "Citrix-Infra": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-        "SCM App Group 1 START": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-        "SCM App Group 2 - Complete": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-        "SCM App Group 2 - Complete (Enter EST Time in 24h format)": "",
-        "SUN Component App Group Complete": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-        "Patch Reboots Complete (Enter EST Time in 24h format)": "",
-        "Patch-Reboots Complete": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-        "C:drive cleanup (Cleanup on all servers including Gold Images)": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-        "Citrix Infra Validation": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-        "Azure VM State Check": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-        "Azure Gold Image Compliance Status": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-        "SCM App Validation": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-        "DB Validation": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-        "Monitoring ISS-E-Link Validation": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-        "Monitoring Alerts Validation": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-        "Maintenance Mode Disabled": {
-          value: "Pending",
-          updated: [{ name: "", timestamp: "" }],
-        },
-      });
-
+      setFormData({});
       const data = await response.json();
       console.log(data);
     } catch (error) {
@@ -258,54 +119,58 @@ const AddClient = () => {
 
   return (
     <div>
-      <RadioGroup
-        className={classes.radioGroup}
-        value={selectedPage}
-        onChange={handleRadioChange}
-        row
-      >
-        <FormControlLabel value="scm" control={<Radio />} label="SCM" />
-        <FormControlLabel value="tw" control={<Radio />} label="TW" />
-        <FormControlLabel value="azure" control={<Radio />} label="Azure" />
-        <FormControlLabel value="suncom" control={<Radio />} label="Suncom" />
-        <FormControlLabel value="adhoc" control={<Radio />} label="Adhoc" />
-        <FormControlLabel value="qts" control={<Radio />} label="QTS" />
-      </RadioGroup>
+      <CustomRadioGroup1 value={selectedPage} onChange={(e) => setSelectedPage(e.target.value)} row>
+        <CustomFormControlLabel value="scm" control={<CustomRadio />} label="SCM" />
+        <CustomFormControlLabel value="tw" control={<CustomRadio />} label="TW" />
+        <CustomFormControlLabel value="azure" control={<CustomRadio />} label="Azure" />
+        <CustomFormControlLabel value="suncomm" control={<CustomRadio />} label="Suncomm" />
+        <CustomFormControlLabel value="aus" control={<CustomRadio />} label="Aus" />
+        <CustomFormControlLabel value="adhoc" control={<CustomRadio />} label="Adhoc" />
+        <CustomFormControlLabel value="qts" control={<CustomRadio />} label="QTS" />
+      </CustomRadioGroup1>
 
       {selectedPage === "scm" && (
-        <Grid container justifyContent="left" width="200%">
+        <Grid container justifyContent="left">
           <Grid item xs={12} md={8} lg={6}>
-            <div className={classes.formContainer}>
-              {error && <div className={classes.errorText}>{error}</div>}
-              {Object.entries(formData).map(([label, value]) => (
-                <Box mb={2} key={label} width="100%">
-                 <TextField
-                   className={classes.textField}
-                   label={label}
-                   value={typeof value === "object" ? value.value : value}
-                   onChange={handleChange}
-                   name={label}
-                   fullWidth
-                 />
-               </Box>
+            <FormContainer>
+              {error && <ErrorText>{error}</ErrorText>}
+              {headings.map((heading) => (
+                <Box mb={2} key={heading} width="100%">
+                  <Typography>{heading}</Typography>
+                  <CustomRadioGroup
+                    row
+                    value={dataTypes[heading]}
+                    onChange={(e) => handleRadioChange(heading, e.target.value)}
+                  >
+                    <CustomFormControlLabel value="string" control={<CustomRadio />} label="String" />
+                    <CustomFormControlLabel value="object" control={<CustomRadio />} label="Object" />
+                  </CustomRadioGroup>
+                  <CustomTextField
+                    label={heading}
+                    value={formData[heading] ? (dataTypes[heading] === 'object' ? formData[heading].value : formData[heading]) : ""}
+                    onChange={handleChange}
+                    name={heading}
+                    fullWidth
+                  />
+                </Box>
               ))}
-              <Button
+              <SubmitButton
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
-                className={classes.submitButton}
                 fullWidth
               >
                 Save
-              </Button>
-            </div>
+              </SubmitButton>
+            </FormContainer>
           </Grid>
         </Grid>
       )}
 
       {selectedPage === "tw" && <div>TW Page Content</div>}
       {selectedPage === "azure" && <div>Azure Page Content</div>}
-      {selectedPage === "suncom" && <div>Suncom Page Content</div>}
+      {selectedPage === "suncomm" && <div>Suncomm Page Content</div>}
+      {selectedPage === "aus" && <div>Aus Page Content</div>}
       {selectedPage === "adhoc" && <div>Adhoc Page Content</div>}
       {selectedPage === "qts" && <div>QTS Page Content</div>}
     </div>

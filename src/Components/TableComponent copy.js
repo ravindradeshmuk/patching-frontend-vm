@@ -23,7 +23,7 @@ import {
   useMediaQuery,
   useTheme,
   } from '@mui/material';
-  import {makeStyles } from '@mui/styles';
+  import {makeStyles } from '@mui/system';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -172,7 +172,6 @@ const useStyles = makeStyles((theme) => ({
 
 function TableComponent() {
   const apiDomain = process.env.REACT_APP_API_DOMAIN;
-  const apiPort = process.env.REACT_APP_API_PORT;
   const classes = useStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));

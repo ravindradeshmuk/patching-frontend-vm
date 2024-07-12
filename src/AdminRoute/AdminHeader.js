@@ -6,262 +6,101 @@ import {
   Typography,
   IconButton,
   Box,
-} from "@mui/material";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import TrackChangesIcon from "@mui/icons-material/TrackChanges";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import DescriptionIcon from "@mui/icons-material/Description";
-import UpdateIcon from "@mui/icons-material/Update";
-import PeopleIcon from "@mui/icons-material/People";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import LanguageIcon from "@mui/icons-material/Language";
-import { makeStyles } from "@mui/styles"; // Updated import
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import InfoIcon from '@mui/icons-material/Info';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Paper,
-  Select,
-  MenuItem,
-  TableContainer,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Button,
-  TextField,
-  useMediaQuery,
-  useTheme,
-  } from '@mui/material';
+} from "@mui/material";
+import {
+  Dashboard as DashboardIcon,
+  TrackChanges as TrackChangesIcon,
+  AddCircle as AddCircleIcon,
+  Description as DescriptionIcon,
+  Update as UpdateIcon,
+  People as PeopleIcon,
+  Notifications as NotificationsIcon,
+  Language as LanguageIcon,
+} from "@mui/icons-material";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles((theme) => ({
-  table: {
-    minWidth: 650,
-    width: '100%',
-    border: '1px solid #ddd',
-    margin: "50px 0px 20px 0px ",
-  },
-  headerCell: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    border: '1px solid #ddd',
-    maxWidth: 100,
-    padding: '2px 2px',
-  },
-  alphabetHeaderCell: {
-    backgroundColor: '#E3F2FD',
-    color: theme.palette.common.black,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    border: '1px solid black',
-    padding: '2px 2px',
-  },
-  cell: {
-    textAlign: 'center',
-    border: '1px solid ',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    padding: '2px 2px',
-    maxWidth: 400,
-  },
-  tableContainer: {
-    overflowX: 'auto',
-  },
-  dropdownCell: {
-    width: 100,
-    maxWidth: 100,
-    overflow: 'hidden',
-    padding: '2px 2px',
-  },
-  select: {
-    height: '30px', // Set a specific height if needed
-    lineHeight: '200px', // Adjust line-height to match the height
-    padding: 0, // Remove padding
-    margin: 0, // Remove margin
-    flexGrow: 1, // Allow select to take up remaining space
-    //marginRight: theme.spacing(0.2),
-    width: '50%',
-    backgroundColor: '#FFF',
-    '& .MuiSelect-icon': {
-      color: theme.palette.action.active,
-    },
-  },
-  inputTime: {
-    width: '100%',
-  },
-  specialRowLabel: {
-    fontWeight: 'bold',
-    fontSize: '1.2rem',
-    color: '#FFFFFF',
-    backgroundColor: '#393392',
-    right: "100px",
-  },
-  stickyColumn: {
-    position: 'sticky',
-    left: 0,
-    backgroundColor: theme.palette.background.paper,
-    zIndex: 1,
-    
-  },
-  stickyColumnSecond: {
-    position: 'sticky',
-    left: '200px',
-    backgroundColor: theme.palette.background.paper,
-    zIndex: 2,
-  },
-  timeInput: {
-    width: '23%',
-    height: '20px',
-    padding: '2px 2px',
-    margin: '2px 0',
-    fontSize: '2rem',
-    borderColor: theme.palette.primary.light,
-    borderRadius: '2px',
-    paddingLeft: '100px',
-  },
-  setTimeButton: {
-    height: '40px',
-    margin: '5px 0',
-    fontSize: '0.875rem',
-    textTransform: 'none',
-  },
-  inputContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    gap: '10px',
-    width: "300px",
-    textAlign: 'center',
-  },
-  buttonRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: '10px',
-  },
-  button: {
-    flex: 1,
-  },
-  buttonsave: {
-    display: 'flex',
-  },
-  infoButton: {
-    padding: 0, // Remove padding
-    margin: 0, // Remove margin
-    minWidth: 'auto', // Ensure no minimum width is set
-    
-  },
-  dropdownContainer: {
-    height: '10px', 
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start', // Ensures proper spacing between elements
-    padding: '0px', // Adjust as needed to reduce overall padding
-    width: '100%',
-  },
-  dialogContent: {
-    overflow: 'auto',
-    
-  },
-  stickyHeader: {
-    position: "sticky",
-    top: 5,
-    background: "white",
-    zIndex: 1,
-    fontWeight: 'bold',
-  },
-  tableCell: {
-    whiteSpace: "nowrap",
-    padding: '4px 8px',
-  },
-  root: {
-    flexGrow: 1,
-    background: "linear-gradient(to right, #6a11cb, #2575fc)",
-    color: "white",
-  },
-  toolbar: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  logo: {
-    fontWeight: "bold",
-    fontSize: "20px",
-    marginRight: "20px",
-  },
-  navLink: {
-    marginRight: "16px",
-    display: "flex",
-    alignItems: "center",
-    color: "white",
-    textDecoration: "none",
-    cursor: "pointer",
-    margin: "3px",
-    "&:hover": {
-      backgroundColor: "#ddd",
-      color: "black",
-      borderRadius: "3px",
-    },
-    "&.active": {
-      color: "#f56e7b",
-    },
-  },
-  search: {
-    marginLeft: "auto",
-    marginRight: "16px",
-    backgroundColor: "white",
-    borderRadius: "4px",
-    "& .MuiInputBase-input": {
-      padding: "6px",
-      paddingLeft: "12px",
-    },
-  },
-  iconButtonRow: {
-    display: "flex",
-    alignItems: "center",
-  },
-  iconButton: {
-    color: "white",
-    marginRight: "8px",
-  },
-  menuRow: {
-    padding: "8px 16px",
-    display: "flex",
-    alignItems: "center",
-  },
-  menuIcon: {
-    color: "#00bbba",
-    marginRight: "8px",
-  },
-  title: {
-    flexGrow: 1,
-    marginLeft: "12px",
-    "&:hover": {
-      color: "#f56e7b",
-    },
-  },
-  logoutButton: {
-    backgroundColor: "#f56e7b",
-    borderRadius: "2px",
-    padding: "6px 20px",
-    "&:hover": {
-      backgroundColor: "#ab4d56",
-    },
+const Root = styled('div')(({ theme }) => ({
+  flexGrow: 1,
+  background: "linear-gradient(to right, #6a11cb, #2575fc)",
+  color: "white",
+}));
+
+const StyledAppBar = styled(AppBar)({
+  backgroundColor: "#393392",
+});
+
+const StyledToolbar = styled(Toolbar)({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+});
+
+const Title = styled(Typography)(({ theme }) => ({
+  flexGrow: 1,
+  marginLeft: "12px",
+  "&:hover": {
+    color: "#f56e7b",
   },
 }));
 
+const NavLink = styled(Link)(({ theme }) => ({
+  marginRight: "16px",
+  display: "flex",
+  alignItems: "center",
+  color: "white",
+  textDecoration: "none",
+  cursor: "pointer",
+  margin: "3px",
+  "&:hover": {
+    backgroundColor: "#ddd",
+    color: "black",
+    borderRadius: "3px",
+  },
+  "&.active": {
+    color: "#f56e7b",
+  },
+}));
+
+const IconButtonRow = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+});
+
+const StyledIconButton = styled(IconButton)({
+  color: "white",
+  marginRight: "8px",
+});
+
+const MenuRow = styled(Box)({
+  padding: "8px 16px",
+  display: "flex",
+  alignItems: "center",
+});
+
+const MenuIcon = styled('span')({
+  color: "#00bbba",
+  marginRight: "8px",
+});
+
+const Logo = styled('img')({
+  marginRight: "10px",
+  width: 120,
+});
+
+const LogoutButton = styled(Button)({
+  backgroundColor: "#f56e7b",
+  borderRadius: "2px",
+  padding: "6px 20px",
+  "&:hover": {
+    backgroundColor: "#ab4d56",
+  },
+});
+
 const Navbar = () => {
   const [currentEstDateTime, setCurrentEstDateTime] = useState("");
-  const classes = useStyles();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -283,98 +122,100 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className={classes.root}>
-      <AppBar position="fixed" style={{ backgroundColor: "#393392" }}>
-        <Toolbar className={classes.toolbar}>
-          <img
-            src="/AWhite.png"
-            alt="Altera Logo"
-            style={{ marginRight: "10px", width: 120 }}
-          />
-          <Typography variant="h6" className={classes.title}>
-            Admin Dashboard
-          </Typography>
-          <Box className={classes.iconButtonRow}>
+    <Root>
+      <StyledAppBar position="fixed">
+        <StyledToolbar>
+          <Logo src="/AWhite.png" alt="Altera Logo" />
+          <Title variant="h6">Admin Dashboard</Title>
+          <IconButtonRow>
             <Typography sx={{ textAlign: "center", fontSize: "11px" }}>
               Date and Time (EST): {currentEstDateTime}
             </Typography>
-            <IconButton className={classes.iconButton}>
+            <StyledIconButton>
               <NotificationsIcon />
-            </IconButton>
-            <IconButton className={classes.iconButton}>
+            </StyledIconButton>
+            <StyledIconButton>
               <LanguageIcon />
-            </IconButton>
-            <IconButton
-              color="inherit"
-              onClick={handleLogout}
-              className={classes.logoutButton}
-            >
+            </StyledIconButton>
+            <LogoutButton onClick={handleLogout}>
               <Typography variant="body1">Logout</Typography>
-            </IconButton>
-          </Box>
-        </Toolbar>
-        <Box className={classes.menuRow}>
-          <Link
+            </LogoutButton>
+          </IconButtonRow>
+        </StyledToolbar>
+        <MenuRow>
+          <NavLink
             to="/admindashboard/dashbord"
-            className={`${classes.navLink} ${location.pathname === "/admindashboard/dashbord" ? "active" : ""}`}
+            className={location.pathname === "/admindashboard/dashbord" ? "active" : ""}
           >
-            <DashboardIcon className={classes.menuIcon} />
+            <DashboardIcon className={MenuIcon} />
             Dashboard
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/admindashboard/tablecomponent"
-            className={`${classes.navLink} ${location.pathname === "/admindashboard/tablecomponent" ? "active" : ""}`}
+            className={location.pathname === "/admindashboard/tablecomponent" ? "active" : ""}
           >
-            <TrackChangesIcon className={classes.menuIcon} />
+            <TrackChangesIcon className={MenuIcon} />
             SCM Tracker
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/admindashboard/updateheading"
-            className={`${classes.navLink} ${location.pathname === "/admindashboard/updateheading" ? "active" : ""}`}
+            className={location.pathname === "/admindashboard/updateheading" ? "active" : ""}
           >
-            <AddCircleIcon className={classes.menuIcon} />
+            <AddCircleIcon className={MenuIcon} />
             Add Status
-          </Link>
-
-          <Link
+          </NavLink>
+          <NavLink
             to="/admindashboard/addclient"
-            className={`${classes.navLink} ${location.pathname === "/admindashboard/template" ? "active" : ""}`}
+            className={location.pathname === "/admindashboard/template" ? "active" : ""}
           >
-            <DescriptionIcon className={classes.menuIcon} />
+            <DescriptionIcon className={MenuIcon} />
             Add Client
-          </Link>
-
-          <Link
+          </NavLink>
+          <NavLink
+            to="/admindashboard/createtracker"
+            className={location.pathname === "/admindashboard/createtracker" ? "active" : ""}
+          >
+            <DescriptionIcon className={MenuIcon} />
+            Create Tracker
+          </NavLink>
+          <NavLink
+            to="/admindashboard/teamaccess"
+            className={location.pathname === "/admindashboard/teamaccess" ? "active" : ""}
+          >
+            <DescriptionIcon className={MenuIcon} />
+            Team Access
+          </NavLink>
+          <NavLink
             to="/admindashboard/template"
-            className={`${classes.navLink} ${location.pathname === "/admindashboard/template" ? "active" : ""}`}
+            className={location.pathname === "/admindashboard/template" ? "active" : ""}
           >
-            <DescriptionIcon className={classes.menuIcon} />
+            <DescriptionIcon className={MenuIcon} />
             Template
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/admindashboard/updateresource"
-            className={`${classes.navLink} ${location.pathname === "/admindashboard/updateresource" ? "active" : ""}`}
+            className={location.pathname === "/admindashboard/updateresource" ? "active" : ""}
           >
-            <UpdateIcon className={classes.menuIcon} />
+            <UpdateIcon className={MenuIcon} />
             Update Resource
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/admindashboard/sign-up-data"
-            className={`${classes.navLink} ${location.pathname === "/admindashboard/sign-up-data" ? "active" : ""}`}
+            className={location.pathname === "/admindashboard/sign-up-data" ? "active" : ""}
           >
-            <PeopleIcon className={classes.menuIcon} />
+            <PeopleIcon className={MenuIcon} />
             User Data
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/admindashboard/clientdata"
-            className={`${classes.navLink} ${location.pathname === "/admindashboard/clientdata" ? "active" : ""}`}
+            className={location.pathname === "/admindashboard/clientdata" ? "active" : ""}
           >
-            <PeopleIcon className={classes.menuIcon} />
+            <PeopleIcon className={MenuIcon} />
             Reports
-          </Link>
-        </Box>
-      </AppBar>
-    </div>
+          </NavLink>
+        </MenuRow>
+      </StyledAppBar>
+    </Root>
   );
 };
 

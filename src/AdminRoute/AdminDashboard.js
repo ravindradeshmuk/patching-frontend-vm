@@ -1,8 +1,8 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 // For MUI v5
-import { makeStyles } from '@mui/styles';
-import { withStyles } from '@mui/styles';
+import { styled } from '@mui/system';
+import { withStyles } from '@mui/system';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button, Checkbox, TextField, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -11,6 +11,8 @@ import InfoIcon from '@mui/icons-material/Info';
 // import SidebarAdmin from './SidebarAdmin';
 import UpdateHeading from './UpdateHeading';
 import AddClient from './AddClient';
+import CreateTracker from './CreateTracker';
+import AdminTeamAccess from './AdminTeamAccess';
 import UpdateResource from './UpdateResource';
 import EmailTemplate from './EmailTemplate';
 import UpdateTemplate from './UpdateTemplate';
@@ -23,7 +25,7 @@ import TableComponent from '../Components/TableComponent';
 import ClientData from './ClientData';
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = styled((theme) => ({
   content: {
     flexGrow: 1,
     display: 'flex',
@@ -53,6 +55,8 @@ export default function AdminDashboard() {
           {/* Define your admin routes here */}
           <Route path="updateheading" element={<UpdateHeading />} exact />
           <Route path="addclient" element={<AddClient />} exact />
+          <Route path="createtracker" element={<CreateTracker />} exact />
+          <Route path="teamaccess" element={<AdminTeamAccess />} exact />
           <Route path="updateresource" element={<UpdateResource/>} exact />
           <Route path="template" element={<EmailTemplate/>} exact />
           <Route path="update-template" element={<UpdateTemplate/>} exact />

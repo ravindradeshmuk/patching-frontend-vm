@@ -8,61 +8,56 @@ import {
   TextField,
   Snackbar,
   Alert,
+  CircularProgress,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
+import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { AuthContext } from "../Components/UserContext";
+import { AuthContext } from "../Components/UserContext"; // Ensure the correct path to AuthContext
 
-const apiDomain = process.env.REACT_APP_API_DOMAIN;
-const apiPort = process.env.REACT_APP_API_PORT;
 const LoginPage = () => {
-  const [loginFormData, setLoginFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const apiDomain = process.env.REACT_APP_API_DOMAIN;
+  const { handleSubmit, control, formState: { errors } } = useForm();
   const [loginDialogOpen, setLoginDialogOpen] = useState(true);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success"); // 'success', 'error'
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [loading, setLoading] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleLoginFormChange = (e) => {
-    const { name, value } = e.target;
-    setLoginFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const handleLoginSubmit = async () => {
+  const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const response = await axios.post(
         `${apiDomain}/user/api/login`,
-        loginFormData,
+        data,
       );
-      const { token, firstName, role } = response.data;
+      const { token, firstName } = response.data;
       login(token, firstName);
 
       setSnackbarMessage("Login successful");
       setSnackbarSeverity("success");
       setSnackbarOpen(true);
       setLoginDialogOpen(false);
-      // Redirect to the intended page or default to home
+
       const from = location.state?.from?.pathname || "/home";
       navigate(from, { replace: true });
-      // Redirect based on role
-      if (role === "admin") {
-        navigate("/admindashboard/dashbord");
-      } else {
-        navigate("/home");
-      }
     } catch (error) {
       console.error("Error logging in:", error);
-      setSnackbarMessage("Login failed, please try again");
+      const errorMessage =
+        error.response?.data?.message || "Login failed, please try again";
+      setSnackbarMessage(errorMessage);
       setSnackbarSeverity("error");
       setSnackbarOpen(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,49 +71,78 @@ const LoginPage = () => {
 
   return (
     <div>
-      <Dialog open={loginDialogOpen} onClose={handleLoginDialogToggle}>
+      <Dialog
+        open={loginDialogOpen}
+        onClose={handleLoginDialogToggle}
+        fullScreen={fullScreen}
+      >
         <DialogTitle>Login</DialogTitle>
-        <DialogContent sx={{ minWidth: "400px" }}>
-          <TextField
-            margin="dense"
-            id="email"
-            label="Email Address"
-            type="email"
-            fullWidth
-            name="email"
-            value={loginFormData.email}
-            onChange={handleLoginFormChange}
-            sx={{ marginBottom: "16px" }}
-          />
-          <TextField
-            margin="dense"
-            id="password"
-            label="Password"
-            type="password"
-            fullWidth
-            name="password"
-            value={loginFormData.password}
-            onChange={handleLoginFormChange}
-            sx={{ marginBottom: "16px" }}
-          />
+        <DialogContent sx={{ minWidth: { xs: "280px", sm: "400px" } }}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              name="email"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Email is required", pattern: { value: /^[^@]+@[^@]+\.[^@]+$/, message: "Invalid email address" } }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  margin="dense"
+                  id="email"
+                  label="Email Address"
+                  type="email"
+                  fullWidth
+                  error={!!errors.email}
+                  helperText={errors.email ? errors.email.message : ""}
+                  disabled={loading}
+                  sx={{ marginBottom: "16px" }}
+                />
+              )}
+            />
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Password is required" }}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  margin="dense"
+                  id="password"
+                  label="Password"
+                  type="password"
+                  fullWidth
+                  error={!!errors.password}
+                  helperText={errors.password ? errors.password.message : ""}
+                  disabled={loading}
+                  sx={{ marginBottom: "16px" }}
+                />
+              )}
+            />
+            <DialogActions>
+              <Link to="/home">
+                <Button
+                  onClick={handleLoginDialogToggle}
+                  sx={{ color: "#000000" }}
+                  disabled={loading}
+                >
+                  Cancel
+                </Button>
+              </Link>
+              <Button
+                type="submit"
+                sx={{
+                  color: "#fff",
+                  backgroundColor: "#393392",
+                  "&:hover": { backgroundColor: "#2c2c7e" },
+                }}
+                disabled={loading}
+              >
+                {loading ? <CircularProgress size={24} /> : "Login"}
+              </Button>
+            </DialogActions>
+          </form>
         </DialogContent>
-        <DialogActions>
-          <Link to="/home">
-            <Button onClick={handleLoginDialogToggle} sx={{ color: "#000000" }}>
-              Cancel
-            </Button>
-          </Link>
-          <Button
-            onClick={handleLoginSubmit}
-            sx={{
-              color: "#fff",
-              backgroundColor: "#393392",
-              "&:hover": { backgroundColor: "#2c2c7e" },
-            }}
-          >
-            Login
-          </Button>
-        </DialogActions>
       </Dialog>
       <Snackbar
         open={snackbarOpen}

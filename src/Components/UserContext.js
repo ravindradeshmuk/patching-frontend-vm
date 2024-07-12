@@ -9,9 +9,10 @@ export const AuthProvider = ({ children }) => {
 
   const checkLoginStatus = useCallback(() => {
     const token = localStorage.getItem("token");
-    if (token) {
+    const storedFirstName = localStorage.getItem("firstName");
+    if (token && storedFirstName) {
       setIsLoggedIn(true);
-      setFirstName(localStorage.getItem("firstName") || "");
+      setFirstName(storedFirstName);
     }
   }, []);
 

@@ -1,24 +1,29 @@
 // App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
+import { styled, ThemeProvider as SystemThemeProvider } from '@mui/system';
+import { AuthContext } from "./Components/UserContext";
 
-
+import Navbar from "./Components/Navbar"; // Ensure the correct path
 import UserRoutes from "./UsersRoute/userRoutes";
 import AdminDashboard from "./AdminRoute/AdminDashboard";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1976d2', // Replace with your primary color
+      main: '#1976d2',
     },
-    // Add other palette configurations as needed
+    secondary: {
+      main: '#dc004e',
+    },
   },
-  // Add other theme configurations like typography, spacing, etc.
+  typography: {
+    fontFamily: 'Roboto, sans-serif',
+  },
 });
 
-// import io from 'socket.io-client';
-// const socket = io('http://localhost:3000');
+
 function App() {
   return (
     <ThemeProvider theme={theme}>

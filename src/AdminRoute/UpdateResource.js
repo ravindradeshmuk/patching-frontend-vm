@@ -25,7 +25,6 @@ import InputLabel from "@mui/material/InputLabel";
 
 const UpdateResource = () => {
   const apiDomain = process.env.REACT_APP_API_DOMAIN;
-  const apiPort = process.env.REACT_APP_API_PORT;
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [editData, setEditData] = useState({});
@@ -144,11 +143,8 @@ const UpdateResource = () => {
             <FormControlLabel value="scm" control={<Radio />} label="SCM" />
             <FormControlLabel value="tw" control={<Radio />} label="TW" />
             <FormControlLabel value="azure" control={<Radio />} label="Azure" />
-            <FormControlLabel
-              value="suncom"
-              control={<Radio />}
-              label="Suncom"
-            />
+            <FormControlLabel value="suncomm" control={<Radio />} label="Suncomm" />
+            <FormControlLabel value="aus" control={<Radio />} label="Aus" />
             <FormControlLabel value="adhoc" control={<Radio />} label="Adhoc" />
             <FormControlLabel value="qts" control={<Radio />} label="QTS" />
           </RadioGroup>

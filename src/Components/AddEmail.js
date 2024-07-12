@@ -14,7 +14,7 @@ import {
   ListItemIcon,
 } from "@mui/material";
 
-import { styled, useTheme } from "@mui/styles";
+import { styled, useTheme } from "@mui/system";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   fontSize: "16px",

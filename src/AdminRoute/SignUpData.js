@@ -15,7 +15,6 @@ import {
 import moment from "moment-timezone";
 const SignUpData = () => {
   const apiDomain = process.env.REACT_APP_API_DOMAIN;
-  const apiPort = process.env.REACT_APP_API_PORT;
   const [pendingUsers, setPendingUsers] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [filter, setFilter] = useState("pending");
