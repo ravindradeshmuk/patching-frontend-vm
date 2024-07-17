@@ -12,7 +12,6 @@ import {
   StyledTextField,
   StyledSelect,
   StyledIconButton,
-  
 } from './StyledComponents';
 import Paper from '@mui/material/Paper';
 import TableBody from '@mui/material/TableBody';
@@ -28,7 +27,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TableCell from '@mui/material/TableCell'
 
 
-function TableComponent() {
+function AzureTracker() {
   const apiDomain = process.env.REACT_APP_API_DOMAIN;
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -72,42 +71,31 @@ function TableComponent() {
     try {
       const response = await axios.get(`${apiDomain}/client/data/api/tableData?includeId=true`);
       if (response.status !== 200) throw new Error('Network response was not ok');
-
+  
       const rawData = response.data;
       const transformedData = transformData(rawData);
-
+  
       const readOnlyData = transformedData.filter(row =>
-        row["Read Only"] === "Yes" && row["selectedTracker"] === "scm"
+        row["selectedTracker"] === "Azure"
       );
-
-      const eastData = transformedData.filter(row =>
-        row["Time Zone Group"] === "E" &&
-        row["Read Only"] === "No" &&
-        row["selectedTracker"] === "scm"
-      );
-
-      const westData = transformedData.filter(row =>
-        row["Time Zone Group"] === "W" &&
-        row["Read Only"] === "No" &&
-        row["selectedTracker"] === "scm"
-      );
-
-      const headings = transformedData.length > 0 ? Object.keys(transformedData[0]).filter(key => key !== '_id' && key !== '__v' && key !== 'Read Only' && key !== 'selectedTracker' && key !== 'Canceled Client') : [];
-
+  
+      const headings = transformedData.length > 0 
+        ? Object.keys(transformedData[0]).filter(key => 
+            key !== '_id' && key !== '__v' && key !== 'Read Only' && key !== 'selectedTracker' && key !== 'Canceled Client'
+          ) 
+        : [];
+  
       setTableHeadings(headings);
       setTableData([
-        { specialRow: true, label: 'READ-ONLY CLIENTS, PATCHING WINDOW 11 PM to 1 AM ET', type: 'Read Only' },
+        { specialRow: true, label: 'PATCHING WINDOW 11 PM to 1 AM ET', type: 'Read Only' },
         ...readOnlyData,
-        { specialRow: true, label: 'EAST ZONE, PATCHING WINDOW 2 AM to 4 AM ET', type: 'east' },
-        ...eastData,
-        { specialRow: true, label: 'WEST ZONE, PATCHING WINDOW 4 AM to 6 AM ET', type: 'west' },
-        ...westData,
       ]);
       setPreviousData(transformedData);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
+  
 
   useEffect(() => {
     fetchData();
@@ -371,18 +359,19 @@ function TableComponent() {
   return (
     <>
       <StyledTableContainer component={Paper}>
-      <h1>SCM Tracker-:</h1>
+      <h1>Azure Tracker-:</h1>
         <StyledTable aria-label="customized table">
           <TableHead>
             <TableRow>
             <TableCell style={getHeaderCellStyle()}>#</TableCell>
+
               {tableHeadings.map((heading, index) => (
                 <StyledTableCell
                   key={index}
                   style={getHeaderCellStyle(heading)}
                   className={index === siteNameIndex || index === dataCenterIndex ? 'stickyColumn' : ''}
                 >
-             {heading}
+                  {heading}
                 </StyledTableCell>
               ))}
             </TableRow>
@@ -525,4 +514,4 @@ function TableComponent() {
   );
 }
 
-export default TableComponent;
+export default AzureTracker;

@@ -9,15 +9,12 @@ import {
   ListItem,
   ListItemText,
   Button,
-  Menu,
-  MenuItem,
 } from "@mui/material";
 import moment from "moment-timezone";
 import { AuthContext } from "../Components/UserContext";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
   const [currentEstDateTime, setCurrentEstDateTime] = useState("");
   const { isLoggedIn, firstName, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -42,22 +39,12 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  const handleSCMTrackerClick = (event) => {
+  const handleSCMTrackerClick = () => {
     if (isLoggedIn) {
-      setAnchorEl(event.currentTarget);
       navigate("/scmtracker");
     } else {
       navigate("/login");
-
     }
-  };
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleTrackerClick = (path) => {
-    handleMenuClose();
-    navigate(path);
   };
 
   const pages = ["Home", "SCM Tracker"];
@@ -156,31 +143,6 @@ const Navbar = () => {
                 {text}
               </Button>
             ))}
-             <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
-            >
-              <MenuItem onClick={() => handleTrackerClick("/twtracker")}>
-                 Tw Tracker
-              </MenuItem>
-              <MenuItem onClick={() => handleTrackerClick("/azuretracker")}>
-              Azure Tracker
-              </MenuItem>
-              <MenuItem onClick={() => handleTrackerClick("/suncommtracker")}>
-              Suncomm Tracker
-              </MenuItem>
-              <MenuItem onClick={() => handleTrackerClick("/austracker")}>
-              Aus Tracker
-              </MenuItem>
-              <MenuItem onClick={() => handleTrackerClick("/adhoctracker")}>
-              Adhoc Tracker
-              </MenuItem>
-              <MenuItem onClick={() => handleTrackerClick("/Qtstracker")}>
-              QTS tracker
-              </MenuItem>
-              
-            </Menu>
             {isLoggedIn ? (
               <>
                 <Typography
@@ -243,7 +205,6 @@ const Navbar = () => {
         {drawer}
       </Drawer>
       <Toolbar /> {/* This is used to provide spacing for the fixed AppBar */}
-      
     </div>
   );
 };

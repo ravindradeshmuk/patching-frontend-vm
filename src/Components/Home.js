@@ -114,7 +114,7 @@ const HomePage = () => {
           {tabIndex === 1 && (
             <Box>
               <Typography variant="h4">Special Instructions</Typography>
-              <TextField
+              <TextField style={{ marginTop: '15px' }}
                 select
                 label="Select Client"
                 value={currentClient}
@@ -122,7 +122,10 @@ const HomePage = () => {
                 fullWidth
                 SelectProps={{ native: true }}
               >
-                <option value="">Select a client</option>
+                {/* <option value="Select a client" hidden></option> */}
+                <option value="" hidden selected></option>
+                <option value="" >Select A Client</option>
+
                 {clients.map(client => (
                   <option key={client.id} value={client.id}>{client.name}</option>
                 ))}
