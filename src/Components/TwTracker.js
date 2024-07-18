@@ -69,7 +69,7 @@ function TwTracker() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${apiDomain}/client/data/api/tableData?includeId=true`);
+      const response = await axios.get(`${apiDomain}/tw/client/api/twclient?includeId=true`);
       if (response.status !== 200) throw new Error('Network response was not ok');
   
       const rawData = response.data;
@@ -287,7 +287,7 @@ function TwTracker() {
   
   const shouldRenderDropdown = (index) => {
     // Logic to determine if a dropdown should be rendered based on index
-    return index >= 7 && index < 23; // Example condition
+    return index >= 7 && index < 26; // Example condition
   };
   
 

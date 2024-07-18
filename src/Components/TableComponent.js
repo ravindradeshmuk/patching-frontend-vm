@@ -299,7 +299,7 @@ function TableComponent() {
   
   const shouldRenderDropdown = (index) => {
     // Logic to determine if a dropdown should be rendered based on index
-    return index >= 7 && index < 23; // Example condition
+    return index >= 7 && index < 24; // Example condition
   };
   
 

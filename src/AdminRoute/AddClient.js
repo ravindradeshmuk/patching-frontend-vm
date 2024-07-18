@@ -41,7 +41,6 @@ export const SubmitButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(2),
 }));
 
-
 const AddClient = () => {
   const apiDomain = process.env.REACT_APP_API_DOMAIN;
   const [selectedPage, setSelectedPage] = useState("scm");
@@ -53,7 +52,6 @@ const AddClient = () => {
   useEffect(() => {
     const fetchHeadings = async () => {
       try {
-        const apiDomain = process.env.REACT_APP_API_DOMAIN;
         const response = await fetch(`${apiDomain}/api/trackerConfig/${selectedPage}`);
         const data = await response.json();
         setHeadings(data.headings);
@@ -97,7 +95,8 @@ const AddClient = () => {
         ...formData,
       };
 
-      const response = await fetch(`${apiDomain}/api/user/clients`, {
+      const endpoint = `${apiDomain}/api/user/${selectedPage}clients`;
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,7 +128,7 @@ const AddClient = () => {
         <CustomFormControlLabel value="qts" control={<CustomRadio />} label="QTS" />
       </CustomRadioGroup1>
 
-      {selectedPage === "scm" && (
+      {headings.length > 0 && (
         <Grid container justifyContent="left">
           <Grid item xs={12} md={8} lg={6}>
             <FormContainer>
@@ -166,13 +165,6 @@ const AddClient = () => {
           </Grid>
         </Grid>
       )}
-
-      {selectedPage === "tw" && <div>TW Page Content</div>}
-      {selectedPage === "azure" && <div>Azure Page Content</div>}
-      {selectedPage === "suncomm" && <div>Suncomm Page Content</div>}
-      {selectedPage === "aus" && <div>Aus Page Content</div>}
-      {selectedPage === "adhoc" && <div>Adhoc Page Content</div>}
-      {selectedPage === "qts" && <div>QTS Page Content</div>}
     </div>
   );
 };
